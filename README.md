@@ -1,4 +1,4 @@
-# xgodproj
+# xgodeproj
 
 parse xcodeproj/project.pbxproj
 
@@ -11,12 +11,12 @@ parse xcodeproj/project.pbxproj
 To install, use `go get`:
 
 ```bash
-$ go get -d github.com/mpon/xgodproj
+$ go get -d github.com/mpon/xgodeproj
 ```
 
 ## Contribution
 
-1. Fork ([https://github.com/mpon/xgodproj/fork](https://github.com/mpon/xgodproj/fork))
+1. Fork ([https://github.com/mpon/xgodeproj/fork](https://github.com/mpon/xgodeproj/fork))
 1. Create a feature branch
 1. Commit your changes
 1. Rebase your local changes against the master branch
