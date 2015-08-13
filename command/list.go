@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/codegangsta/cli"
 )
@@ -22,7 +23,11 @@ func CmdList(c *cli.Context) {
 
 	scanner := bufio.NewScanner(fp)
 	for scanner.Scan() {
-		fmt.Println(scanner.Text())
+		t := scanner.Text()
+		if strings.Contains(t, "/* Begin") {
+			fs := strings.Fields(t)
+			fmt.Println(fs[2])
+		}
 	}
 	if err := scanner.Err(); err != nil {
 		panic(err)
