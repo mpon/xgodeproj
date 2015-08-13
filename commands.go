@@ -5,11 +5,11 @@ import (
 	"os"
 
 	"github.com/codegangsta/cli"
-	"github.com/Masato Ohshima/xgodproj/command"
+	"github.com/mpon/xgodproj/command"
 )
 
 var GlobalFlags = []cli.Flag{
-    
+
 }
 
 var Commands = []cli.Command{
@@ -19,7 +19,7 @@ var Commands = []cli.Command{
 		Action:      command.CmdList,
 		Flags:       []cli.Flag{},
 	},
-    
+
 }
 
 func CommandNotFound(c *cli.Context, command string) {
