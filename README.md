@@ -1,10 +1,14 @@
 # xgodeproj
 
-parse xcodeproj/project.pbxproj
-
 ## Description
 
+parse xcodeproj/project.pbxproj
+
 ## Usage
+
+```bash
+$ xgodeproj list <your_project.pbxproj>
+```
 
 ## Install
 
