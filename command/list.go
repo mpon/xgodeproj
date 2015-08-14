@@ -18,7 +18,7 @@ func CmdList(c *cli.Context) {
 
 	// plutil -convert json -o tmp.json -r project.pbxproj
 	json := "tmp.json"
-	cmd := exec.Command("plutil", "-convert", "json", "-o", json, "-r", c.Args()[0])
+	cmd := exec.Command("plutil", "-convert", "json", "-o", json, c.Args()[0])
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	cmd.Run()
