@@ -6,8 +6,9 @@ parse xcodeproj/project.pbxproj
 
 ## Usage
 
-Perform in your root Xcode project or workspace.
-We automatically find the `project.pbxproj` file.
+Execute this command in your root dir for Xcode project or workspace.
+
+It automatically finds the `project.pbxproj` file to parse.
 
 ### show all section name
 
