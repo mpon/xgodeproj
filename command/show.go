@@ -45,16 +45,22 @@ func CmdShow(c *cli.Context) {
 	// temp file removed
 	os.Remove(json)
 
-	// get section names
-	ss := getSections(js)
-	for _, s := range ss {
-		fmt.Println(s)
-	}
-
-	// get file references
-	fs := getFileReferences(js)
-	for _, f := range fs {
-		fmt.Println(f)
+	sections := getSections(js)
+	section := c.String("section")
+	switch {
+	case section == "":
+		for _, s := range sections {
+			fmt.Println(s)
+		}
+	case !contains(sections, section):
+		fmt.Println(section + " does not exist. try `xgodeproj show` to search section name")
+	case section == "PBXFileReference":
+		fs := getFileReferences(js)
+		for _, f := range fs {
+			fmt.Println(f.path)
+		}
+	default:
+		fmt.Println("sorry, not implement parser for the " + section)
 	}
 
 }

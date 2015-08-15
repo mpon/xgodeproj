@@ -23,7 +23,13 @@ var Commands = []cli.Command{
 		Name:   "show",
 		Usage:  "",
 		Action: command.CmdShow,
-		Flags:  []cli.Flag{},
+		Flags: []cli.Flag{
+			cli.StringFlag{
+				Name:  "section",
+				Value: "",
+				Usage: "section name for pbxproj",
+			},
+		},
 	},
 }
 

@@ -12,11 +12,27 @@ parse xcodeproj/project.pbxproj
 $ xgodeproj show <your_project.pbxproj>
 ```
 
-### show section [TODO]
+### show section
 
 ```bash
 $ xgodeproj show <your_project.pbxproj> --section <section name>
 ```
+
+Implemented section
+
+- [ ] PBXBuildFile
+- [ ] PBXContainerItemProxy
+- [x] PBXFileReference
+- [ ] PBXFrameworksBuildPhase
+- [ ] PBXGroup
+- [ ] PBXNativeTarget
+- [ ] PBXProject
+- [ ] PBXResourcesBuildPhase
+- [ ] PBXSourcesBuildPhase
+- [ ] PBXTargetDependency
+- [ ] PBXVariantGroup
+- [ ] XCBuildConfiguration
+- [ ] XCConfigurationList
 
 ## Install
 
