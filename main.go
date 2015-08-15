@@ -12,7 +12,7 @@ func main() {
 	app.Name = Name
 	app.Version = Version
 	app.Author = "Masato Ohshima"
-	app.Email = ""
+	app.Email = "qqw75pn9@gmail.com"
 	app.Usage = ""
 
 	app.Flags = GlobalFlags

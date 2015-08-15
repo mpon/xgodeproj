@@ -6,8 +6,16 @@ parse xcodeproj/project.pbxproj
 
 ## Usage
 
+### show all section name [TODO]
+
 ```bash
-$ xgodeproj list <your_project.pbxproj>
+$ xgodeproj show <your_project.pbxproj>
+```
+
+### show section [TODO]
+
+```bash
+$ xgodeproj show <your_project.pbxproj> --section <section name>
 ```
 
 ## Install

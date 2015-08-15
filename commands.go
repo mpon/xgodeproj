@@ -19,6 +19,12 @@ var Commands = []cli.Command{
 		Action: command.CmdList,
 		Flags:  []cli.Flag{},
 	},
+	{
+		Name:   "show",
+		Usage:  "",
+		Action: command.CmdShow,
+		Flags:  []cli.Flag{},
+	},
 }
 
 // CommandNotFound error
