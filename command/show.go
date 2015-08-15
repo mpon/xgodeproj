@@ -46,16 +46,6 @@ func CmdShow(c *cli.Context) {
 
 }
 
-// FileReference represent isa PBXFileReference
-type FileReference struct {
-	name              string
-	path              string
-	lastKnownFileType string
-	includeInIndex    string
-	explicitFileType  string
-	sourceTree        string
-}
-
 // get json from project.pbxproj
 func convertJSON(proj string) *simplejson.Json {
 	// plutil -convert json -o tmp.json -r project.pbxproj
@@ -94,29 +84,6 @@ func sections(js *simplejson.Json) []string {
 	}
 	sort.Strings(ss)
 	return ss
-}
-
-// parse PBXFileReference
-func fileReferences(js *simplejson.Json) []FileReference {
-	fs := []FileReference{}
-	m := js.Get("objects").MustMap()
-	for _, mm := range m {
-		obj := mm.(map[string]interface{})
-		for k, v := range obj {
-			if k == "isa" && v.(string) == "PBXFileReference" {
-				f := FileReference{
-					lookupStr(obj, "name"),
-					lookupStr(obj, "path"),
-					lookupStr(obj, "lastKnownFileType"),
-					lookupStr(obj, "includeInIndex"),
-					lookupStr(obj, "explicitFileType"),
-					lookupStr(obj, "sourceTree"),
-				}
-				fs = append(fs, f)
-			}
-		}
-	}
-	return fs
 }
 
 // find project.pbxproj path
