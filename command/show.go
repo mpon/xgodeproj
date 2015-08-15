@@ -11,6 +11,16 @@ import (
 	"github.com/codegangsta/cli"
 )
 
+// FileReference represent isa PBXFileReference
+type FileReference struct {
+	name              string
+	path              string
+	lastKnownFileType string
+	includeInIndex    string
+	explicitFileType  string
+	sourceTree        string
+}
+
 // CmdShow for print sections
 func CmdShow(c *cli.Context) {
 	var err error
@@ -41,6 +51,12 @@ func CmdShow(c *cli.Context) {
 		fmt.Println(s)
 	}
 
+	// get file references
+	fs := getFileReferences(js)
+	for _, f := range fs {
+		fmt.Println(f)
+	}
+
 }
 
 func getSections(js *simplejson.Json) []string {
@@ -57,6 +73,29 @@ func getSections(js *simplejson.Json) []string {
 	return ss
 }
 
+func getFileReferences(js *simplejson.Json) []FileReference {
+	fs := []FileReference{}
+	m := js.Get("objects").MustMap()
+	for _, mm := range m {
+		fileRef := mm.(map[string]interface{})
+		for k, v := range fileRef {
+			if k == "isa" && v.(string) == "PBXFileReference" {
+				name := lookupStr(fileRef, "name")
+				path := lookupStr(fileRef, "path")
+				lastKnowFileType := lookupStr(fileRef, "lastKnowFileType")
+				includeInIndex := lookupStr(fileRef, "includeInIndex")
+				explicitFileType := lookupStr(fileRef, "explicitFileType")
+				sourceTree := lookupStr(fileRef, "sourceTree")
+				f := FileReference{
+					name, path, lastKnowFileType, includeInIndex,
+					explicitFileType, sourceTree}
+				fs = append(fs, f)
+			}
+		}
+	}
+	return fs
+}
+
 func contains(s []string, e string) bool {
 	for _, a := range s {
 		if a == e {
@@ -64,4 +103,13 @@ func contains(s []string, e string) bool {
 		}
 	}
 	return false
+}
+
+func lookupStr(m map[string]interface{}, k string) string {
+	if v, found := m[k]; found {
+		if s, ok := v.(string); ok {
+			return s
+		}
+	}
+	return ""
 }
