@@ -6,7 +6,7 @@ parse xcodeproj/project.pbxproj
 
 ## Usage
 
-### show all section name [TODO]
+### show all section name
 
 ```bash
 $ xgodeproj show <your_project.pbxproj>
