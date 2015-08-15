@@ -5,7 +5,9 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"sort"
+	"strings"
 
 	"github.com/bitly/go-simplejson"
 	"github.com/codegangsta/cli"
@@ -24,10 +26,38 @@ type FileReference struct {
 // CmdShow for print sections
 func CmdShow(c *cli.Context) {
 	var err error
+	var proj string
 
+	cur, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	err = filepath.Walk(cur,
+		func(path string, info os.FileInfo, err error) error {
+			if info.IsDir() {
+				if strings.HasPrefix(info.Name(), ".") {
+					return filepath.SkipDir
+				}
+				return nil
+			}
+
+			ext := filepath.Ext(path)
+			if ext == ".pbxproj" {
+				rel, err := filepath.Rel(cur, path)
+				if err != nil {
+					panic(err)
+				}
+				proj = rel
+			}
+			return nil
+		})
+
+	if proj == "" {
+		fmt.Println("Not found project.pbxproj file.")
+		return
+	}
 	// plutil -convert json -o tmp.json -r project.pbxproj
 	json := "tmp.json"
-	proj := c.Args().First()
 	cmd := exec.Command("plutil", "-convert", "json", "-o", json, proj)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr

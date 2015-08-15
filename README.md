@@ -6,16 +6,19 @@ parse xcodeproj/project.pbxproj
 
 ## Usage
 
+Perform in your root Xcode project or workspace.
+We automatically find the `project.pbxproj` file.
+
 ### show all section name
 
 ```bash
-$ xgodeproj show <your_project.pbxproj>
+$ xgodeproj show
 ```
 
 ### show section information
 
 ```bash
-$ xgodeproj show <your_project.pbxproj> --section <section name>
+$ xgodeproj show --section <section name>
 ```
 
 Implemented section
