@@ -40,6 +40,12 @@ func CmdShow(c *cli.Context) {
 		for _, f := range fs {
 			fmt.Println(f.path)
 		}
+	case section == "PBXNativeTarget":
+		// show native targets
+		ns := nativeTargets(json)
+		for _, n := range ns {
+			fmt.Println(n.name)
+		}
 	default:
 		fmt.Println("sorry, not implement parser for the " + section)
 	}
@@ -127,7 +133,7 @@ func contains(s []string, e string) bool {
 	return false
 }
 
-// find map value or default value
+// find map string value or default empty string value
 func lookupStr(m map[string]interface{}, k string) string {
 	if v, found := m[k]; found {
 		if s, ok := v.(string); ok {
@@ -135,4 +141,18 @@ func lookupStr(m map[string]interface{}, k string) string {
 		}
 	}
 	return ""
+}
+
+// find map string slices or default empty string slices
+func lookupStrSlices(m map[string]interface{}, k string) []string {
+	if v, found := m[k]; found {
+		a := []string{}
+		if vv, ok := v.([]interface{}); ok {
+			for _, s := range vv {
+				a = append(a, s.(string))
+			}
+			return a
+		}
+	}
+	return []string{}
 }

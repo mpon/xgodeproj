@@ -29,7 +29,7 @@ Implemented section
 - [x] PBXFileReference
 - [ ] PBXFrameworksBuildPhase
 - [ ] PBXGroup
-- [ ] PBXNativeTarget
+- [x] PBXNativeTarget
 - [ ] PBXProject
 - [ ] PBXResourcesBuildPhase
 - [ ] PBXSourcesBuildPhase
