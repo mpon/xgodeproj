@@ -24,7 +24,7 @@ $ xgodeproj show --section <section name>
 
 Implemented section
 
-- [ ] PBXBuildFile
+- [x] PBXBuildFile
 - [ ] PBXContainerItemProxy
 - [x] PBXFileReference
 - [ ] PBXFrameworksBuildPhase
@@ -32,7 +32,7 @@ Implemented section
 - [x] PBXNativeTarget
 - [ ] PBXProject
 - [ ] PBXResourcesBuildPhase
-- [ ] PBXSourcesBuildPhase
+- [x] PBXSourcesBuildPhase
 - [ ] PBXTargetDependency
 - [ ] PBXVariantGroup
 - [ ] XCBuildConfiguration

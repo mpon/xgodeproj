@@ -25,6 +25,10 @@ func CmdShow(c *cli.Context) {
 	json := convertJSON(proj)
 	sections := sections(json)
 	section := c.String("section")
+	fileRefs := fileReferences(json)
+	targets := nativeTargets(json)
+	sourceBuildPhases := sourcesBuildPhases(json)
+	buildFiles := buildFiles(json)
 
 	switch {
 	case section == "":
@@ -36,15 +40,34 @@ func CmdShow(c *cli.Context) {
 		fmt.Println(section + " does not exist. try `xgodeproj show` to find section name")
 	case section == "PBXFileReference":
 		// show file reference paths
-		fs := fileReferences(json)
-		for _, f := range fs {
+		for _, f := range fileRefs {
 			fmt.Println(f.path)
 		}
 	case section == "PBXNativeTarget":
 		// show native targets
-		ns := nativeTargets(json)
-		for _, n := range ns {
-			fmt.Println(n.name)
+		for _, t := range targets {
+			fmt.Println(t.name)
+		}
+	case section == "PBXBuildFile":
+		// show build files
+		for _, bf := range buildFiles {
+			if name, found := findFilePath(fileRefs, bf.fileRef); found {
+				fmt.Println(name)
+			}
+		}
+	case section == "PBXSourcesBuildPhase":
+		// show sources build phases
+		for _, s := range sourceBuildPhases {
+			if t, found := findTargetName(targets, s.id); found {
+				fmt.Println(t)
+			}
+			for _, id := range s.files {
+				if ref, found := findFileRef(buildFiles, id); found {
+					if p, found := findFilePath(fileRefs, ref); found {
+						fmt.Println(" " + p)
+					}
+				}
+			}
 		}
 	default:
 		fmt.Println("sorry, not implement parser for the " + section)
