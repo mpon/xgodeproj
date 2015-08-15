@@ -14,14 +14,8 @@ var GlobalFlags = []cli.Flag{}
 // Commands have command list
 var Commands = []cli.Command{
 	{
-		Name:   "list",
-		Usage:  "",
-		Action: command.CmdList,
-		Flags:  []cli.Flag{},
-	},
-	{
 		Name:   "show",
-		Usage:  "",
+		Usage:  "Prints section names or each section information",
 		Action: command.CmdShow,
 		Flags: []cli.Flag{
 			cli.StringFlag{

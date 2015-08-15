@@ -13,7 +13,7 @@ func main() {
 	app.Version = Version
 	app.Author = "Masato Ohshima"
 	app.Email = "qqw75pn9@gmail.com"
-	app.Usage = ""
+	app.Usage = "Prints information for xcodeproj"
 
 	app.Flags = GlobalFlags
 	app.Commands = Commands

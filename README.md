@@ -12,7 +12,7 @@ parse xcodeproj/project.pbxproj
 $ xgodeproj show <your_project.pbxproj>
 ```
 
-### show section
+### show section information
 
 ```bash
 $ xgodeproj show <your_project.pbxproj> --section <section name>
