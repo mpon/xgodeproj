@@ -23,7 +23,7 @@ $ xgodeproj show --section PBXGroup
     SampleTests.xctest
 ```
 
-You can see already implemented list to parse pbxproj below.
+See already implemented list to parse pbxproj.
 
 - [x] PBXBuildFile
 - [ ] PBXContainerItemProxy
@@ -42,9 +42,7 @@ You can see already implemented list to parse pbxproj below.
 ## Usage
 
 Execute this command in your root dir for Xcode project or workspace.
-
-It automatically finds the `project.pbxproj` file to parse.
-
+It automatically and recursively finds the `project.pbxproj` file to parse.
 Also, you can specify project name when you have some projects in workspace.
 
 ### show all section name
