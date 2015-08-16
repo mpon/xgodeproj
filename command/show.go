@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/codegangsta/cli"
+	"github.com/mpon/xgodeproj/pbxproj"
 )
 
 // CmdShow for print sections
@@ -22,45 +23,38 @@ func CmdShow(c *cli.Context) {
 	section := c.String("section")
 
 	// parse pbxproj
-	pbxproj := NewPbxproj(proj)
+	pbxproj := pbxproj.NewPbxproj(proj)
 
 	switch {
 	case section == "":
 		// show all section names
-		for _, s := range pbxproj.sectionNames {
+		for _, s := range pbxproj.SectionNames() {
 			fmt.Println(s)
 		}
-	case !contains(pbxproj.sectionNames, section):
+	case !pbxproj.Exists(section):
 		fmt.Println(section + " does not exist. try `xgodeproj show` to find section name")
 	case section == "PBXFileReference":
 		// show file reference paths
-		for _, f := range pbxproj.fileReferences {
-			fmt.Println(f.path)
+		for _, s := range pbxproj.FileReferencePathNames() {
+			fmt.Println(s)
 		}
 	case section == "PBXNativeTarget":
-		// show native targets
-		for _, t := range pbxproj.nativeTargets {
-			fmt.Println(t.name)
+		// show target names
+		for _, s := range pbxproj.NativeTargetNames() {
+			fmt.Println(s)
 		}
 	case section == "PBXBuildFile":
 		// show build files
-		for _, bf := range pbxproj.buildFiles {
-			if name, found := findFilePath(pbxproj.fileReferences, bf.fileRef); found {
-				fmt.Println(name)
-			}
+		for _, s := range pbxproj.BuildFileNames() {
+			fmt.Println(s)
 		}
 	case section == "PBXSourcesBuildPhase":
-		// show sources build phases
-		for _, s := range pbxproj.sourcesBuildPhases {
-			if t, found := findTargetName(pbxproj.nativeTargets, s.id); found {
-				fmt.Println(t)
-			}
-			for _, id := range s.files {
-				if ref, found := findFileRef(pbxproj.buildFiles, id); found {
-					if p, found := findFilePath(pbxproj.fileReferences, ref); found {
-						fmt.Println(" " + p)
-					}
-				}
+		// show build phase source files
+		for k, v := range pbxproj.BuildPhaseSourceFileNames() {
+			fmt.Println(k)
+			fmt.Println("---------")
+			for _, s := range v {
+				fmt.Println(s)
 			}
 		}
 	default:
