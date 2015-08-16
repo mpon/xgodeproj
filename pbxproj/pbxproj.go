@@ -17,6 +17,7 @@ type Pbxproj struct {
 	sourcesBuildPhases   []SourcesBuildPhase
 	resourcesBuildPhases []ResourcesBuildPhase
 	variantGroups        []VariantGroup
+	groups               []Group
 }
 
 // NewPbxproj constructor
@@ -34,6 +35,7 @@ func NewPbxproj(path string) *Pbxproj {
 		parseSourcesBuildPhases(m),
 		parseResourcesBuildPhases(m),
 		parseVariantGroups(m),
+		parseGroups(m),
 	}
 }
 
@@ -129,6 +131,29 @@ func (p Pbxproj) VariantGroupNames() []string {
 	return s
 }
 
+// WalkFunc is the type of the function called for each fileReference or
+// group visited by Walk.
+type WalkFunc func(entry GroupEntry, level int)
+
+// walk recursively descends group entry
+func (p Pbxproj) walk(entry GroupEntry, level int, walkFn WalkFunc) {
+	walkFn(entry, level)
+	for _, c := range entry.Children(p) {
+		p.walk(c, level+1, walkFn)
+	}
+}
+
+// Walk walks the xcode project tree rooted at root
+// calling walkFn for each group or file in the tree, including root
+func (p Pbxproj) Walk(walkFn WalkFunc) {
+	for _, g := range p.groups {
+		if g.isRoot() {
+			rootLevel := 0
+			p.walk(g, rootLevel, walkFn)
+		}
+	}
+}
+
 // ===================
 // internal methods
 // ===================
@@ -189,4 +214,14 @@ func (p Pbxproj) findVariantGroupByID(id string) (VariantGroup, bool) {
 		}
 	}
 	return VariantGroup{}, false
+}
+
+// find group
+func (p Pbxproj) findGroupByID(id string) (Group, bool) {
+	for _, group := range p.groups {
+		if group.id == id {
+			return group, true
+		}
+	}
+	return Group{}, false
 }
