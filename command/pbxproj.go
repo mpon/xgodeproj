@@ -11,20 +11,35 @@ import (
 
 // Pbxproj represent project.pbxproj
 type Pbxproj struct {
-	path string
-	json *simplejson.Json
+	path               string
+	json               *simplejson.Json
+	sectionNames       []string
+	fileReferences     []FileReference
+	nativeTargets      []NativeTarget
+	buildFiles         []BuildFile
+	sourcesBuildPhases []SourcesBuildPhase
 }
 
 // NewPbxproj constructor
 func NewPbxproj(path string) *Pbxproj {
 	js := convertJSON(path)
-	return &Pbxproj{path, js}
+	m := js.Get("objects").MustMap()
+
+	return &Pbxproj{
+		path,
+		js,
+		parseSectionNames(m),
+		parseFileReferences(m),
+		parseNativeTargets(m),
+		parseBuildFiles(m),
+		parseSourcesBuildPhases(m),
+	}
 }
 
 // sectionNames get all distinct sorted section names
-func (p Pbxproj) sectionNames() []string {
+func parseSectionNames(m map[string]interface{}) []string {
 	ss := []string{}
-	m := p.json.Get("objects").MustMap()
+
 	for _, mm := range m {
 		for k, v := range mm.(map[string]interface{}) {
 			if k == "isa" && !contains(ss, v.(string)) {
@@ -37,9 +52,9 @@ func (p Pbxproj) sectionNames() []string {
 }
 
 // parse PBXFileReference
-func (p Pbxproj) fileReferences() []FileReference {
+func parseFileReferences(m map[string]interface{}) []FileReference {
 	fs := []FileReference{}
-	m := p.json.Get("objects").MustMap()
+
 	for id, mm := range m {
 		obj := mm.(map[string]interface{})
 		for k, v := range obj {
@@ -61,9 +76,9 @@ func (p Pbxproj) fileReferences() []FileReference {
 }
 
 // parse PBXNativeTarget
-func (p Pbxproj) nativeTargets() []NativeTarget {
+func parseNativeTargets(m map[string]interface{}) []NativeTarget {
 	ns := []NativeTarget{}
-	m := p.json.Get("objects").MustMap()
+
 	for id, mm := range m {
 		obj := mm.(map[string]interface{})
 		for k, v := range obj {
@@ -87,9 +102,9 @@ func (p Pbxproj) nativeTargets() []NativeTarget {
 }
 
 // parse PBXBuildFile
-func (p Pbxproj) buildFiles() []BuildFile {
+func parseBuildFiles(m map[string]interface{}) []BuildFile {
 	bs := []BuildFile{}
-	m := p.json.Get("objects").MustMap()
+
 	for id, mm := range m {
 		obj := mm.(map[string]interface{})
 		for k, v := range obj {
@@ -106,9 +121,9 @@ func (p Pbxproj) buildFiles() []BuildFile {
 }
 
 // parse PBXSourcesBuildPhase
-func (p Pbxproj) sourcesBuildPhases() []SourcesBuildPhase {
+func parseSourcesBuildPhases(m map[string]interface{}) []SourcesBuildPhase {
 	ss := []SourcesBuildPhase{}
-	m := p.json.Get("objects").MustMap()
+
 	for id, mm := range m {
 		obj := mm.(map[string]interface{})
 		for k, v := range obj {
