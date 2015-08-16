@@ -2,9 +2,6 @@ package command
 
 import (
 	"fmt"
-	"os"
-	"path/filepath"
-	"strings"
 
 	"github.com/codegangsta/cli"
 	"github.com/mpon/xgodeproj/pbxproj"
@@ -13,6 +10,7 @@ import (
 // CmdShow for print sections
 func CmdShow(c *cli.Context) {
 
+	// find project.pbxproj path
 	proj, found := findProjectPath()
 	if !found {
 		fmt.Println("Not found project.pbxproj file.")
@@ -21,12 +19,13 @@ func CmdShow(c *cli.Context) {
 
 	// get flags
 	section := c.String("section")
+	isSectionNotSet := section == ""
 
 	// parse pbxproj
 	pbxproj := pbxproj.NewPbxproj(proj)
 
 	switch {
-	case section == "":
+	case isSectionNotSet:
 		// show all section names
 		for _, s := range pbxproj.SectionNames() {
 			fmt.Println(s)
@@ -61,35 +60,4 @@ func CmdShow(c *cli.Context) {
 		fmt.Println("sorry, not implement parser for the " + section)
 	}
 
-}
-
-// find project.pbxproj path
-func findProjectPath() (projPath string, found bool) {
-
-	// get current directory
-	cur, err := os.Getwd()
-	if err != nil {
-		panic(err)
-	}
-
-	// find project.pbxproj
-	err = filepath.Walk(cur,
-		func(path string, info os.FileInfo, err error) error {
-			if info.IsDir() {
-				if strings.HasPrefix(info.Name(), ".") {
-					return filepath.SkipDir
-				}
-				return nil
-			}
-			if filepath.Base(path) == "project.pbxproj" {
-				rel, err := filepath.Rel(cur, path)
-				if err != nil {
-					panic(err)
-				}
-				projPath = rel
-				found = true
-			}
-			return nil
-		})
-	return projPath, found
 }
