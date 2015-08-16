@@ -23,6 +23,11 @@ var Commands = []cli.Command{
 				Value: "",
 				Usage: "section name for pbxproj",
 			},
+			cli.StringFlag{
+				Name:  "project",
+				Value: "",
+				Usage: "xcode project name",
+			},
 		},
 	},
 }

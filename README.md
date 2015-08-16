@@ -2,33 +2,34 @@
 
 ## Description
 
-parse xcodeproj/project.pbxproj
+This library parses xcodeproj/project.pbxproj file.
 
-## Usage
-
-Execute this command in your root dir for Xcode project or workspace.
-
-It automatically finds the `project.pbxproj` file to parse.
-
-### show all section name
+You can see the project hierarchy from cli.
 
 ```bash
-$ xgodeproj show
+$ xgodeproj show --section PBXGroup
++ Sample
+    AppDelegate.swift
+    ViewController.swift
+    Images.xcassets
+  + Supporting Files
+      Info.plist
++ SampleTests
+    SampleTests.swift
+  + Supporting Files
+      Info.plist
++ Products
+    Sample.app
+    SampleTests.xctest
 ```
 
-### show section information
-
-```bash
-$ xgodeproj show --section <section name>
-```
-
-Implemented section
+You can see already implemented list to parse pbxproj below.
 
 - [x] PBXBuildFile
 - [ ] PBXContainerItemProxy
 - [x] PBXFileReference
 - [ ] PBXFrameworksBuildPhase
-- [ ] PBXGroup
+- [x] PBXGroup
 - [x] PBXNativeTarget
 - [ ] PBXProject
 - [x] PBXResourcesBuildPhase
@@ -37,6 +38,28 @@ Implemented section
 - [x] PBXVariantGroup
 - [ ] XCBuildConfiguration
 - [ ] XCConfigurationList
+
+## Usage
+
+Execute this command in your root dir for Xcode project or workspace.
+
+It automatically finds the `project.pbxproj` file to parse.
+
+Also, you can specify project name when you have some projects in workspace.
+
+### show all section name
+
+```bash
+$ xgodeproj show
+$ xgodeproj show --project Sample
+```
+
+### show section information
+
+```bash
+$ xgodeproj show --section <section name>
+$ xgodeproj show --section <section name> --project Sample
+```
 
 ## Install
 

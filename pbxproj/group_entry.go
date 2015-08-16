@@ -1,5 +1,7 @@
 package pbxproj
 
+import "path/filepath"
+
 // GroupEntry describes xcode project's entry
 // it is file or group
 type GroupEntry interface {
@@ -24,7 +26,7 @@ func (f FileReference) Children(p Pbxproj) []GroupEntry {
 
 // Description returns file path
 func (f FileReference) Description() string {
-	return f.path
+	return filepath.Base(f.path)
 }
 
 // --- Group Implementation ---

@@ -7,7 +7,9 @@ import (
 )
 
 // find project.pbxproj path
-func findProjectPath() (projPath string, found bool) {
+func findProjectPath(project string) (projPath string, found bool) {
+
+	isProjectNotSet := len(project) == 0
 
 	// get current directory
 	cur, err := os.Getwd()
@@ -24,7 +26,9 @@ func findProjectPath() (projPath string, found bool) {
 				}
 				return nil
 			}
-			if filepath.Base(path) == "project.pbxproj" {
+			isPbxproj := filepath.Base(path) == "project.pbxproj"
+			isSpecifiedProject := filepath.Base(filepath.Dir(path)) == project+".xcodeproj"
+			if isPbxproj && (isProjectNotSet || isSpecifiedProject) {
 				rel, err := filepath.Rel(cur, path)
 				if err != nil {
 					panic(err)

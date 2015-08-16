@@ -10,8 +10,11 @@ import (
 // CmdShow for print sections
 func CmdShow(c *cli.Context) {
 
+	// get project flag
+	project := c.String("project")
+
 	// find project.pbxproj path
-	projPath, found := findProjectPath()
+	projPath, found := findProjectPath(project)
 	if !found {
 		fmt.Println("Not found project.pbxproj file.")
 		return
@@ -19,7 +22,7 @@ func CmdShow(c *cli.Context) {
 
 	// get flags
 	section := c.String("section")
-	isSectionNotSet := section == ""
+	isSectionNotSet := len(section) == 0
 
 	// parse pbxproj
 	proj := pbxproj.NewPbxproj(projPath)
