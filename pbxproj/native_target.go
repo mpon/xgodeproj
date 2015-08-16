@@ -38,14 +38,3 @@ func parseNativeTargets(m map[string]interface{}) []NativeTarget {
 	}
 	return ns
 }
-
-func findTargetName(ns []NativeTarget, id string) (string, bool) {
-	for _, n := range ns {
-		for _, bt := range n.buildPhases {
-			if bt == id {
-				return n.name, true
-			}
-		}
-	}
-	return "", false
-}

@@ -34,13 +34,3 @@ func parseFileReferences(m map[string]interface{}) []FileReference {
 	}
 	return fs
 }
-
-// find file path
-func findFilePath(fs []FileReference, id string) (string, bool) {
-	for _, f := range fs {
-		if f.id == id {
-			return f.path, true
-		}
-	}
-	return "", false
-}

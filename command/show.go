@@ -56,6 +56,20 @@ func CmdShow(c *cli.Context) {
 				fmt.Println(s)
 			}
 		}
+	case section == "PBXResourcesBuildPhase":
+		// show build phase resource files
+		for k, v := range pbxproj.BuildPhaseResourceFileNames() {
+			fmt.Println(k)
+			fmt.Println("---------")
+			for _, s := range v {
+				fmt.Println(s)
+			}
+		}
+	case section == "PBXVariantGroup":
+		// show variant groups
+		for _, s := range pbxproj.VariantGroupNames() {
+			fmt.Println(s)
+		}
 	default:
 		fmt.Println("sorry, not implement parser for the " + section)
 	}

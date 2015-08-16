@@ -24,13 +24,3 @@ func parseBuildFiles(m map[string]interface{}) []BuildFile {
 	}
 	return bs
 }
-
-// find fileRef
-func findFileRef(bs []BuildFile, id string) (string, bool) {
-	for _, b := range bs {
-		if b.id == id {
-			return b.fileRef, true
-		}
-	}
-	return "", false
-}

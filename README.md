@@ -31,10 +31,10 @@ Implemented section
 - [ ] PBXGroup
 - [x] PBXNativeTarget
 - [ ] PBXProject
-- [ ] PBXResourcesBuildPhase
+- [x] PBXResourcesBuildPhase
 - [x] PBXSourcesBuildPhase
 - [ ] PBXTargetDependency
-- [ ] PBXVariantGroup
+- [x] PBXVariantGroup
 - [ ] XCBuildConfiguration
 - [ ] XCConfigurationList
 
